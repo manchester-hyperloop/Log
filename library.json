@@ -1,0 +1,19 @@
+{
+    "name": "Log",
+    "description": "A logger accessible through the use of precompiler defines",
+    "keywords": "Hyperloop, Manchester, hyperloop, manchester, Log, Logger, Logging",
+    "version": "1.0.0",
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/manchester-hyperloop/Log"
+    },
+    "author":
+    {
+        "name": "Harry O'Brien",
+        "url": "https://github.com/Harry-OBrien",
+        "maintainer": true
+    },
+    "frameworks": "*",
+    "platforms": "*"
+}
