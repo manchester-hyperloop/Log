@@ -37,7 +37,7 @@ class Logger
     /// Real time clock.
     RTC_DS1307 rtc;
 
-    /// Wether or not the logger is initialised.
+    /// Whether or not the logger is initialised.
     bool initialised = false;
 
 public:
@@ -125,10 +125,6 @@ private:
 template <severity_type severity, typename... Args>
 void Logger::print(Args... args)
 {
-    // Return if not initialised (prevents crash later when accessing policy)
-    if (!initialised)
-        return;
-
     switch (severity)
     {
     case severity_type::debug:
@@ -147,7 +143,11 @@ void Logger::print(Args... args)
 
 inline void Logger::print_impl()
 {
-    policy->write(get_logline_header() + log_stream);
+    // Return if not initialised (prevents crash later when accessing policy)
+    if (initialised)
+        policy->write(get_logline_header() + log_stream);
+    else
+        Serial.println(String("(No init)") + log_stream);
     log_stream = "";
 }
 

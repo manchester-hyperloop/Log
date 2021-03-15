@@ -171,6 +171,12 @@ void test_logger_fails_on_rtc_failure(void)
     RTC_DS1307::canInitialise = true;
 }
 
+// Logger should still print to serial if not properly initialised
+void test_logger_prints_to_serial_on_failed_init(void)
+{
+    TEST_FAIL_MESSAGE("Test not implemented");
+}
+
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
@@ -188,6 +194,8 @@ int main(int argc, char **argv)
     RUN_TEST(test_logger_fails_on_sd_failure);
     RUN_TEST(test_logger_fails_on_output_failure);
     RUN_TEST(test_logger_fails_on_rtc_failure);
+
+    // RUN_TEST(test_logger_prints_to_serial_on_failed_init);
 
     UNITY_END();
 }

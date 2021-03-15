@@ -9,6 +9,9 @@
 
 bool Logger::init()
 {
+    if (initialised)
+        return initialised;
+
     if (!rtc.begin())
     {
         Serial.println("Couldn't find RTC...");
