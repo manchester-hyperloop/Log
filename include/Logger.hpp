@@ -19,6 +19,10 @@
 #include <RTC_Mock.hpp>
 #endif
 
+#ifdef ENABLE_ROS_OUTPUT
+#include <Log_ROS.hpp>
+#endif
+
 /**
  * Logging interface
  */
@@ -39,6 +43,14 @@ class Logger
 
     /// Whether or not the logger is initialised.
     bool initialised = false;
+
+    /// The severity type of the current log.
+    severity_type current_log_severity;
+
+    /// The ROS log manager.
+#ifdef ENABLE_ROS_OUTPUT
+    Log_ROS *log_ros;
+#endif
 
 public:
     /**
@@ -125,6 +137,8 @@ private:
 template <severity_type severity, typename... Args>
 void Logger::print(Args... args)
 {
+    current_log_severity = severity;
+
     switch (severity)
     {
     case severity_type::debug:
@@ -137,7 +151,7 @@ void Logger::print(Args... args)
         log_stream += "<ERROR>: ";
         break;
     };
-
+    
     print_impl(args...);
 }
 
@@ -148,6 +162,12 @@ inline void Logger::print_impl()
         policy->write(get_logline_header() + log_stream);
     else
         Serial.println(String("(No init)") + log_stream);
+
+    // Log to ROS
+#ifdef ENABLE_ROS_OUTPUT
+    log_ros -> Log(log_stream, current_log_severity);
+#endif
+
     log_stream = "";
 }
 

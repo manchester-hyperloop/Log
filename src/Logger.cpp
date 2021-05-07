@@ -12,6 +12,13 @@ bool Logger::init()
     if (initialised)
         return initialised;
 
+#ifdef ENABLE_ROS_OUTPUT
+    log_ros = new Log_ROS;
+    if(!log_ros){
+        Serial.println(F("LOGGER: Unable to create the ROS connection"));
+    }
+#endif
+
     if (!rtc.begin())
     {
         Serial.println("Couldn't find RTC...");
