@@ -13,8 +13,8 @@ bool Logger::init()
         return initialised;
 
 #ifdef ENABLE_ROS_OUTPUT
-    log_ros = new Log_ROS;
-    if(!log_ros){
+    ros_logger = new ROS_Logger;
+    if(!ros_logger){
         Serial.println(F("LOGGER: Unable to create the ROS connection"));
     }
 #endif

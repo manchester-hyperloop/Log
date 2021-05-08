@@ -20,7 +20,7 @@
 #endif
 
 #ifdef ENABLE_ROS_OUTPUT
-#include <Log_ROS.hpp>
+#include <ROS_Logger.hpp>
 #endif
 
 /**
@@ -44,12 +44,9 @@ class Logger
     /// Whether or not the logger is initialised.
     bool initialised = false;
 
-    /// The severity type of the current log.
-    severity_type current_log_severity;
-
     /// The ROS log manager.
 #ifdef ENABLE_ROS_OUTPUT
-    Log_ROS *log_ros;
+    ROS_Logger *ros_logger;
 #endif
 
 public:
@@ -137,8 +134,6 @@ private:
 template <severity_type severity, typename... Args>
 void Logger::print(Args... args)
 {
-    current_log_severity = severity;
-
     switch (severity)
     {
     case severity_type::debug:
@@ -165,7 +160,7 @@ inline void Logger::print_impl()
 
     // Log to ROS
 #ifdef ENABLE_ROS_OUTPUT
-    log_ros -> Log(log_stream, current_log_severity);
+    ros_logger -> Log(log_stream);
 #endif
 
     log_stream = "";
